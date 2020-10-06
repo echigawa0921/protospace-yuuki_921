@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+    def new
+      @user = User.new
+    end
     before_action :configure_permitted_parameters, if: :devise_controller?
 
     private
