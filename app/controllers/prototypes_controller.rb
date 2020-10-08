@@ -1,4 +1,5 @@
 class PrototypesController < ApplicationController
+  before_action :move_to_index, except: [:index, :create]
   def index
     @user = User.all
   end
@@ -7,10 +8,11 @@ class PrototypesController < ApplicationController
     @user = User.new
   end
   
-  def update
-  end
 
-  def create
+  def move_to_index
+    unless user_signed_in?
+      redirect_to action: :index
+   end
   end
 
 end
