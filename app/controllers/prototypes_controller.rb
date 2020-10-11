@@ -1,31 +1,26 @@
 class PrototypesController < ApplicationController
-  before_action :set_user, only: [:edit, :show]
-  before_action :move_to_index, except: [:index, :create]
+
   def index
-    @user = User.all
+    @users = User.order("created_at DESC")
   end
 
   def new
-    @user = User.new
+    @users = User.new
   end
 
   def create
+    @user = User.new(user_params)
+    if @user.save
+      redirect_to root_path
+    else
+      render :new
+    end
   end
-  
 
   private
+
   def user_params
-    params.require(:user).permit(:name, :profile,:occupation, :position, :password_confirmation)
-  end
-
-  def set_user
-    @user = User.find(params[:id])
-  end
-
-  def move_to_index
-    unless user_signed_in?
-      redirect_to action: :index
-   end
+    params.require(:user).permit(:title,:text)
   end
 
 end
